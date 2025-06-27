@@ -1,0 +1,111 @@
+<!-- Public Records for Fun and Profit - Landing Page Skeleton -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Public Records for Fun and Profit</title>
+  <style>
+    body {
+      background-color: #002b36;
+      color: #eee8d5;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #cb4b16;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #b58900;
+    }
+    #priceValue {
+      font-size: 24px;
+    }
+    #sliderWrapper {
+      margin: 10px 0;
+    }
+    #scratchpad {
+      border: 3px dashed #cb4b16;
+      padding: 20px;
+      background-color: #073642;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Public Records for Fun and Profit</h1>
+  <p class="section">
+    <strong class="highlight">The workings of your local government aren't hidden—they're just filed away.</strong><br>
+    Learn how to access public records like a pro (no press pass required). This hands-on class will walk you through real-life examples of filing requests at the city, county, and state level.
+  </p>
+
+  <div class="section">
+    <h2>Ideal for:</h2>
+    <ul>
+      <li>Community activists</li>
+      <li>Contractors & business owners</li>
+      <li>Employees of local government</li>
+      <li>Curious neighbors</li>
+      <li>Political junkies</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Interactive Teaser</h2>
+    <div id="scratchpad">
+      <p>🧟‍♂️ Reveal secrets like: "How much did they spend?" — Click to scratch!</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Class Details</h2>
+    <p><strong>Price:</strong> $25 - $60, sliding scale</p>
+    <div id="sliderWrapper">
+      <label for="price">Select your price: </label>
+      <input type="range" id="price" min="25" max="60" value="40">
+      <span id="priceValue">$40</span>
+    </div>
+    <button onclick="startCheckout()">Enroll Now</button>
+  </div>
+
+  <div class="section">
+    <h2>When & Where</h2>
+    <p>
+      <strong>Date:</strong> Tuesday, July 22 from 6:30 - 8:30 p.m.<br>
+      <strong>Location:</strong> News in the Grove, inside Gann Bros Printing<br>
+      2032 Pacific Ave, Forest Grove, OR 97116
+    </p>
+    <p>
+      Cookies, coffee, and other light refreshments served.<br>
+      (Note: Shop has a large, friendly German Shepherd and may have active machinery running.)
+    </p>
+    <p>Questions? Email <a href="mailto:chashundley@newsinthegrove.com">chashundley@newsinthegrove.com</a></p>
+  </div>
+
+  <script>
+    const slider = document.getElementById('price');
+    const priceDisplay = document.getElementById('priceValue');
+    slider.addEventListener('input', () => {
+      priceDisplay.textContent = `$${slider.value}`;
+    });
+
+    function startCheckout() {
+      const amount = slider.value;
+      fetch('https://YOUR-HEROKU-BACKEND.herokuapp.com/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.url) window.location.href = data.url;
+      })
+      .catch(err => console.error('Checkout error:', err));
+    }
+  </script>
+</body>
+</html>
