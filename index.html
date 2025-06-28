@@ -95,7 +95,7 @@
 
     function startCheckout() {
       const amount = slider.value;
-fetch('http://localhost:4242/create-checkout-session', {
+fetch('https://public-records-class-backend-c10edf5b4613.herokuapp.com/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount })
